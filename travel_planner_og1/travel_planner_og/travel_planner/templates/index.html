@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TravelXplore - Plan Your Perfect Trip</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #0a0a0a;
+            --gold: #c9a84c;
+            --light: #f5f0e8;
+            --gray: #888;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .nav-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        .nav-links .btn-login {
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 24px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-links .btn-login:hover {
+            background: var(--gold);
+            color: var(--dark);
+        }
+
+        .nav-links .btn-signup {
+            background: var(--gold);
+            color: var(--dark);
+            padding: 8px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .nav-links .btn-signup:hover { opacity: 0.85; }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background-image: url('/static/travel1.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(10,10,10,0.5) 0%,
+                rgba(10,10,10,0.4) 50%,
+                rgba(10,10,10,0.9) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+            animation: fadeUp 1s ease forwards;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 6px 20px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero h1 span { color: var(--gold); }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 500px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary-gold {
+            background: var(--gold);
+            color: var(--dark);
+            padding: 14px 40px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary-gold:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            color: var(--dark);
+        }
+
+        .btn-outline-gold {
+            border: 2px solid white;
+            color: white;
+            padding: 14px 40px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-gold:hover {
+            background: white;
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        /* HOW IT WORKS */
+        .section {
+            padding: 100px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            color: var(--gold);
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 60px;
+            line-height: 1.2;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+        }
+
+        .step-card {
+            padding: 36px 28px;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.03);
+            transition: all 0.3s;
+        }
+
+        .step-card:hover {
+            border-color: rgba(201,168,76,0.4);
+            background: rgba(201,168,76,0.05);
+            transform: translateY(-4px);
+        }
+
+        .step-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(201,168,76,0.25);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .step-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .step-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* FEATURES */
+        .features-bg {
+            background: rgba(255,255,255,0.02);
+            border-top: 1px solid rgba(255,255,255,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .feature-item h5 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .feature-item p {
+            font-size: 0.88rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(10,10,10,0));
+            border-top: 1px solid rgba(201,168,76,0.15);
+        }
+
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 16px 24px; }
+            .section { padding: 60px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a class="nav-brand" href="/">✈ TravelXplore</a>
+    <div class="nav-links">
+        {% if session.get("user") %}
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout" class="btn-login">Logout</a>
+        {% else %}
+            <a href="/login" class="btn-login">Login</a>
+            <a href="/signup" class="btn-signup">Sign Up Free</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-tag">✦ Smart Travel Planning</div>
+        <h1>Plan Your <span>Perfect</span><br>Trip In Minutes</h1>
+        <p>Tell us your destination and budget — we'll handle the rest. Day-by-day itineraries, budget breakdowns, and top picks, all in one place.</p>
+        <div class="hero-buttons">
+            <a href="/login" class="btn-primary-gold">Login to Start Planning</a>
+            <a href="/signup" class="btn-outline-gold">Create Account</a>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<div style="background: var(--dark);">
+    <div class="section">
+        <div class="section-label">How It Works</div>
+        <div class="section-title">Plan your trip in<br>3 simple steps</div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">01</div>
+                <h4>Create Your Account</h4>
+                <p>Sign up for free in seconds. Your trips and preferences are saved securely to your profile.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">02</div>
+                <h4>Enter Your Details</h4>
+                <p>Choose your destination, travel dates, total budget, and preferred travel style — budget, standard, or luxury.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">03</div>
+                <h4>Get Your Plan</h4>
+                <p>Receive a full day-by-day itinerary with top attractions, restaurants, activities, and a smart budget breakdown.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">04</div>
+                <h4>Explore & Enjoy</h4>
+                <p>Use your personalised plan to explore confidently — every rupee accounted for, every day filled.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features-bg">
+    <div class="section">
+        <div class="section-label">Why TravelXplore</div>
+        <div class="section-title">Everything you need<br>for a great trip</div>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🗺️</div>
+                <div>
+                    <h5>10 Destinations</h5>
+                    <p>From Goa to Paris, Dubai to Singapore — top cities across India and the world.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💰</div>
+                <div>
+                    <h5>Smart Budget Planner</h5>
+                    <p>Enter your total budget and see exactly how much to spend on food, activities, sightseeing, and transport.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📅</div>
+                <div>
+                    <h5>Day-by-Day Itinerary</h5>
+                    <p>Get a structured plan for every day of your trip — morning, afternoon, and evening sorted.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎯</div>
+                <div>
+                    <h5>3 Travel Styles</h5>
+                    <p>Budget, Standard, or Luxury — your budget split adapts to how you like to travel.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <div>
+                    <h5>Visual Budget Chart</h5>
+                    <p>A clear pie chart shows your spending breakdown at a glance — no surprises on your trip.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔐</div>
+                <div>
+                    <h5>Secure Accounts</h5>
+                    <p>Your data is stored safely. Login anytime to plan your next adventure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+    <h2>Ready to start<br>your adventure?</h2>
+    <p>Join TravelXplore and plan your dream trip today — it's completely free.</p>
+    <div class="hero-buttons">
+        <a href="/login" class="btn-primary-gold">Login to Your Account</a>
+        <a href="/signup" class="btn-outline-gold" style="border-color: rgba(255,255,255,0.3);">Create Account</a>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    © 2026 TravelXplore · Made with ❤️ · <a href="/about" style="color: var(--gold); text-decoration:none;">About</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="mb-4">
+    <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm">← Back</a>
+</div>
+
+<div class="p-4 rounded mb-4" style="background:#111; color:white;">
+    <h2>🍽️ Best Restaurants in {{ city }}</h2>
+    <p class="mb-0" style="color:rgba(255,255,255,0.6);">Popular food spots locals and travelers love</p>
+</div>
+
+<div class="row g-4">
+    {% for place in restaurants %}
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0" style="border-radius:12px; overflow:hidden;">
+            <img src="{{ place.img }}" alt="{{ place.name }}"
+                 style="height:200px; object-fit:cover; width:100%;"
+                 onerror="this.src='https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600'">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ place.name }}</h5>
+                <p class="card-text text-muted" style="font-size:0.9rem;">A top dining spot in {{ city }}.</p>
+                <span class="badge" style="background:#e76f51; color:white;">Restaurant</span>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

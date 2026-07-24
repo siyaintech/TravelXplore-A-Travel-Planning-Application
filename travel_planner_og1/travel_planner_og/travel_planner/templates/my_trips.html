@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="mb-4">My Planned Trips</h1>
+
+    {% if trips %}
+        <div class="row">
+            {% for trip in trips %}
+                <div class="col-md-12 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>{{ trip[0] | title }} Trip</h5>  <!-- City -->
+                            <p><strong>Dates:</strong> {{ trip[1] }} to {{ trip[2] }}</p>  <!-- start_date to end_date -->
+                            <p><strong>Days:</strong> {{ trip[3] }}</p>  <!-- days -->
+                            <p><strong>Budget:</strong> ₹{{ "{:,}".format(trip[4]) }}</p>  <!-- budget -->
+                            <p><strong>Style:</strong> {{ trip[5] | title }}</p>  <!-- style -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No trips planned yet.</p>
+    {% endif %}
+
+    <a href="/dashboard" class="btn btn-primary mt-3">Back to Dashboard</a>
+</div>
+
+{% endblock %}

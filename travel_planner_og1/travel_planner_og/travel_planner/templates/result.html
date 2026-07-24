@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- HERO / SUMMARY -->
+<div class="trip-summary mb-4 p-4 rounded" style="background:#111; color:white;">
+    <h1 class="trip-title">Trip to {{ city }}</h1>
+    <p class="trip-dates mb-0">
+        {{ start_date }} → {{ end_date }} &nbsp;·&nbsp; {{ days }} days &nbsp;·&nbsp;
+        <span style="text-transform:capitalize;">{{ style }}</span> travel
+    </p>
+</div>
+
+<!-- EXPLORE SECTION -->
+<h3 class="mb-4">Explore {{ city }}</h3>
+
+<div class="row g-4">
+
+    <!-- ATTRACTIONS -->
+    <div class="col-md-4">
+        <div class="explore-card card">
+        <img src="{{ url_for('static', filename='attraction.jpg') }}" class="card-img-top" alt="">         
+   <div class="card-body">
+                <h5>Best Attractions</h5>
+                <p>Top places you shouldn't miss while visiting.</p>
+                <a href="/explore/{{ city }}/attractions" class="btn btn-outline-dark w-100">View Attractions</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESTAURANTS -->
+    <div class="col-md-4">
+        <div class="explore-card card">
+           <img src="{{ url_for('static', filename='restro.jpg') }}" class="card-img-top" alt="">
+         <div class="card-body">
+                <h5>Best Restaurants</h5>
+                <p>Popular food spots locals and travelers love.</p>
+                <a href="/explore/{{ city }}/restaurants" class="btn btn-outline-dark w-100">View Restaurants</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div class="col-md-4">
+        <div class="explore-card card">
+           <img src="{{ url_for('static', filename='activity.jpg') }}" class="card-img-top" alt="">
+            <div class="card-body">
+                <h5>Best Activities</h5>
+                <p>Things to do for memories worth keeping.</p>
+                <a href="/explore/{{ city }}/activities" class="btn btn-outline-dark w-100">View Activities</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- BUDGET BREAKDOWN -->
+<div class="budget-section mt-5">
+    <h3 class="mb-4">💰 Budget Breakdown</h3>
+    <p class="text-muted mb-4" style="font-size:14px;">
+        Based on your ₹{{ "{:,}".format(budget) }} budget ·
+        <span style="text-transform:capitalize;">{{ style }}</span> style
+    </p>
+
+    <div class="row align-items-center g-4">
+
+        <!-- Matplotlib chart -->
+        <div class="col-md-5 text-center">
+            <img src="/static/budget_chart.png" alt="Budget Pie Chart"
+                 style="width:100%; max-width:300px; border-radius:12px;">
+        </div>
+
+        <!-- Cost cards -->
+        <div class="col-md-7">
+            <div class="budget-card">
+                <span class="budget-dot" style="background:#f4a261;"></span>
+                <div>
+                    <div class="budget-label">🏛️ Attractions & Sightseeing</div>
+                    <div class="budget-amount">₹{{ "{:,}".format(breakdown.attractions) }}</div>
+                </div>
+            </div>
+            <div class="budget-card">
+                <span class="budget-dot" style="background:#e76f51;"></span>
+                <div>
+                    <div class="budget-label">🍽️ Restaurants & Food</div>
+                    <div class="budget-amount">₹{{ "{:,}".format(breakdown.restaurants) }}</div>
+                </div>
+            </div>
+            <div class="budget-card">
+                <span class="budget-dot" style="background:#2a9d8f;"></span>
+                <div>
+                    <div class="budget-label">🎯 Activities & Experiences</div>
+                    <div class="budget-amount">₹{{ "{:,}".format(breakdown.activities) }}</div>
+                </div>
+            </div>
+            <div class="budget-card">
+                <span class="budget-dot" style="background:#457b9d;"></span>
+                <div>
+                    <div class="budget-label">🚗 Local Transport</div>
+                    <div class="budget-amount">₹{{ "{:,}".format(breakdown.transport) }}</div>
+                </div>
+            </div>
+            <div class="budget-total">
+                <span>Your Total Budget</span>
+                <span class="total-amount">₹{{ "{:,}".format(breakdown.total) }} · {{ days }} days</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- GENERATE ITINERARY BUTTON -->
+<form method="POST" action="/generate">
+    <input type="hidden" name="city" value="{{ city }}">
+    <input type="hidden" name="days" value="{{ days }}">
+    <input type="hidden" name="start_date" value="{{ start_date }}">
+    <input type="hidden" name="end_date" value="{{ end_date }}">
+    <input type="hidden" name="budget" value="{{ budget }}">
+    <input type="hidden" name="style" value="{{ style }}">
+    <!-- Removed: <input type="hidden" name="breakdown" value="{{ breakdown }}"> (breakdown is an object, regenerated in /generate) -->
+    <div style="text-align:center; margin:40px 0;">
+        <button type="submit" style="
+            padding:14px 40px;
+            font-size:18px;
+            background:#111;
+            color:white;
+            border:none;
+            border-radius:10px;
+            cursor:pointer;">
+            Generate Itinerary
+        </button>
+    </div>
+</form>
+
+<style>
+    .budget-section { background:#f8f9fa; border-radius:16px; padding:30px; border:1px solid #e9ecef; }
+    .budget-card { display:flex; align-items:center; gap:14px; background:white; border-radius:10px; padding:14px 18px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+    .budget-dot { width:14px; height:14px; border-radius:50%; flex-shrink:0; }
+    .budget-label { font-size:14px; color:#555; }
+    .budget-amount { font-size:18px; font-weight:700; color:#111; }
+    .budget-total { display:flex; justify-content:space-between; align-items:center; background:#111; color:white; border-radius:10px; padding:16px 20px; margin-top:4px; font-weight:600; }
+    .total-amount { font-size:18px; font-weight:800; }
+</style>
+
+{% endblock %}

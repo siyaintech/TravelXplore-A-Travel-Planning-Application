@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ city }} Itinerary</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 40px 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+        }
+
+        .item {
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #ffd369;
+        }
+
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 30px auto;
+            padding: 12px;
+            text-align: center;
+            background: #ffd369;
+            color: black;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>{{ city }} - Day Wise Itinerary</h1>
+
+    {% for day in itinerary %}
+        <div class="card">
+            <h2>Day {{ loop.index }}</h2>
+
+            <div class="item">
+                <span class="label">Morning - Visit:</span>
+                {{ day.visit }}
+            </div>
+
+            <div class="item">
+                <span class="label">Afternoon - Eat at:</span>
+                {{ day.eat }}
+            </div>
+
+            <div class="item">
+                <span class="label">Evening - Activity:</span>
+                {{ day.do }}
+            </div>
+        </div>
+    {% endfor %}
+
+    <a href="/dashboard" class="btn">Back to Dashboard</a>  <!-- Changed to redirect to dashboard -->
+
+</div>
+
+</body>
+</html>
